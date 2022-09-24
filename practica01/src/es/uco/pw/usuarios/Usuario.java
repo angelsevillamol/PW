@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class Usuario {
 
-	int id;
+    int id;
     private String nombre;
     private String apellidos;
     private Date fechaNacimiento;
