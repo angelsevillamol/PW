@@ -22,35 +22,35 @@ public class GestorUsuarios {
     public Usuario buscarUsuario(String email) {	
     	Usuario usuario = null;
     	
-		for (Usuario u : usuarios) {  
-			if (u.getEmail().equals(email))  {
-				usuario = u;
-				return usuario;
-			}
-		}
+	for (Usuario u : usuarios) {  
+	    if (u.getEmail().equals(email))  {
+		usuario = u;
 		return usuario;
+	    }
+	}
+	return usuario;
     }
     
     public boolean existeUsuario(String email) {	
-		Usuario u = buscarUsuario(email);
-		return (u != null);
+	Usuario u = buscarUsuario(email);
+	return (u != null);
     }
     
     public void altaUsuario(Usuario u) {
     	if (existeUsuario(u.getEmail()) == false) {
-    		u.setId(usuarios.size());
-    		usuarios.add(u);
+ 	    u.setId(usuarios.size());
+    	    usuarios.add(u);
     	}
     }
 
     public void modificarUsuario(Usuario u) {
     	for (Usuario uiter : usuarios) {
-    		if (uiter.getId() == u.getId()) {
-    			u.setNombre(uiter.getNombre());
+    	    if (uiter.getId() == u.getId()) {
+    		u.setNombre(uiter.getNombre());
     	        u.setApellidos(uiter.getApellidos());
     	        u.setFechaNacimiento(uiter.getFechaNacimiento());
     	        u.setEmail(uiter.getEmail());
-    		}
+    	    }
     	}
     }
 
