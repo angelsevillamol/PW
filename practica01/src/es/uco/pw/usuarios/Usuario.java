@@ -14,7 +14,7 @@ public class Usuario {
     private String email;
 
     public Usuario() {
-    	setId(0);
+        setId(0);
         setNombre("");
         setApellidos("");
         setFechaNacimiento(new Date());
@@ -22,17 +22,17 @@ public class Usuario {
         setEmail("");
     }
 
-    public Usuario(int id, String nombre, String apellidos, Date fechaNacimiento, String email) {
-    	setId(id);
+    public Usuario(int id, String nombre, String apellidos, Date fechaNacimiento, Date fechaInscripcion, String email) {
+        setId(id);
         setNombre(nombre);
         setApellidos(apellidos);
         setFechaNacimiento(fechaNacimiento);
-        setFechaInscripcion(new Date());
+        setFechaInscripcion(fechaInscripcion);
         setEmail(email);
     }
 
     public int getId() {
-    	return id;
+        return id;
     }
     
     public String getNombre() {
@@ -56,7 +56,7 @@ public class Usuario {
     }
     
     public void setId(int id) {
-    	this.id = id;
+        this.id = id;
     }
 
     public void setNombre(String nombre) {
