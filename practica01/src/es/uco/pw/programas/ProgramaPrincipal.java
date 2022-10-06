@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package es.uco.pw.programas;
 
 import java.util.Scanner;
@@ -23,27 +26,37 @@ enum OpcionesMenuModificar {
     INCORRECTA
 }
 
+/**
+ * Programa que permite gestionar los usuarios de la aplicacion.
+ */
 public class ProgramaPrincipal {
     
-    private static GestorUsuarios gestorUsuarios = GestorUsuarios.getInstance();
+    private static GestorUsuarios gestorUsuarios;
     private static Scanner sc;
     
+    /**
+     * Espera a que el usuario introduzca ENTER para continuar.
+     */
     private static void pulseEnter() {
         System.out.print("Pulse ENTER para continuar.");
         sc.nextLine();
     }
     
+    /**
+     * Imprime las opciones del menu principal por pantalla y solicita al usuario una opcion.
+     * @return la opcion seleccionada por el usuario.
+     */
     private static OpcionesMenu imprimirMenu() {
         OpcionesMenu opt;
         
-        System.out.println("MEN�:");
+        System.out.println("MENU:");
         System.out.println("\t1. Dar de alta a un usuario.");
-        System.out.println("\t2. Modificar la informaci�n de un usuario.");
+        System.out.println("\t2. Modificar la informacion de un usuario.");
         System.out.println("\t3. Listar a los usuarios actualmente registrados.");
         System.out.println("\t0. Salir.");
         
         try {
-            System.out.print("Seleccione una opci�n: ");
+            System.out.print("Seleccione una opcion: ");
             int intOpt = Integer.parseInt(sc.nextLine());
             if (intOpt < 0 || intOpt > 3) {
                 opt = OpcionesMenu.INCORRECTA;
@@ -58,6 +71,10 @@ public class ProgramaPrincipal {
         return opt;
     }
     
+    /**
+     * Imprime las opciones de modificacion de usuarios por pantalla y solicita al usuario una opcion.
+     * @return la opcion seleccionada por el usuario.
+     */
     private static OpcionesMenuModificar imprimirMenuModificar() {
         OpcionesMenuModificar opt;
         
@@ -68,7 +85,7 @@ public class ProgramaPrincipal {
         System.out.println("\t0. Salir.");
         
         try {
-            System.out.print("Seleccione una opci�n: ");
+            System.out.print("Seleccione una opcion: ");
             int intOpt = Integer.parseInt(sc.nextLine());
             if (intOpt < 0 || intOpt > 5) {
                 opt = OpcionesMenuModificar.INCORRECTA;
@@ -83,14 +100,18 @@ public class ProgramaPrincipal {
         return opt;
     }
     
-    private static void modificarUsuario() {   
+    /**
+     * Modifica la informacion personal de un usuario registrado a partir 
+     * de los valores introducidos por el usuario del metodo.
+     */
+    private static void modificarUsuario() { 
         System.out.println("MODIFICAR USUARIO");
         
         // Solicita el correo electronico del usuario.
         System.out.print("Introduzca el correo del usuario a modificar: ");
          String str = sc.nextLine();
          if (str == null || str.isEmpty()) {
-             System.out.print("El correo electr�nico es un campo obligatorio. ");
+             System.out.print("El correo electronico es un campo obligatorio. ");
              return;
          }
              
@@ -157,10 +178,10 @@ public class ProgramaPrincipal {
                     System.out.print("\tEmail: ");
                     str = sc.nextLine();
                     if (str == null || str.isEmpty()) {
-                        System.out.print("El correo electr�nico es un campo obligatorio. ");
+                        System.out.print("El correo electronico es un campo obligatorio. ");
                     }
                     else if (gestorUsuarios.existeUsuario(str)) {
-                        System.out.print("Ya existe un usuario con esa direcci�n de correo electr�nico. ");
+                        System.out.print("Ya existe un usuario con esa direccion de correo electronico. ");
                     }
                     else {
                         u.setEmail(str);
@@ -168,13 +189,17 @@ public class ProgramaPrincipal {
                     pulseEnter();
                     break;
                 default:
-                    System.out.print("Opci�n incorrecta. ");
+                    System.out.print("Opcion incorrecta. ");
                     pulseEnter();
             }
         
         } while (opt != OpcionesMenuModificar.SALIR);    
     }
     
+    /**
+     * Da de alta a un usuario a partir con la informacion personal introducida 
+     * por teclado por el usuario del metodo.
+     */
     private static void altaUsuario() {
         System.out.println("ALTA DE UN USUARIO");
         System.out.println("Introduzca sus datos: ");
@@ -183,13 +208,13 @@ public class ProgramaPrincipal {
         System.out.print("\tEmail: ");
         String email = sc.nextLine();
         if (email == null || email.isEmpty()) {
-            System.out.print("El correo electr�nico es un campo obligatorio. ");
+            System.out.print("El correo electronico es un campo obligatorio. ");
             return;
         }
         
         // Comprueba si existe dicho usuario.
         if (gestorUsuarios.existeUsuario(email)) {
-            System.out.print("Ya existe un usuario con esa direcci�n de correo electr�nico. ");
+            System.out.print("Ya existe un usuario con esa direccion de correo electronico. ");
             return;
         }
         
@@ -225,14 +250,15 @@ public class ProgramaPrincipal {
         
         Usuario u = new Usuario(0, nombre, apellidos, fechaNacimiento, today, email);
         gestorUsuarios.altaUsuario(u);
-        System.out.print("Usuario dado de alta con �xito. ");
+        System.out.print("Usuario dado de alta con exito. ");
     }
     
     public static void main(String[] args) {
+    	gestorUsuarios = GestorUsuarios.getInstance();
         sc = new Scanner(System.in);
         OpcionesMenu opt;
         
-        System.out.println("Bienvenido a la p�gina de Karts.");
+        System.out.println("Bienvenido a la pagina de Karts.");
         gestorUsuarios.cargarUsuarios();
     
         do {
@@ -255,11 +281,10 @@ public class ProgramaPrincipal {
                     pulseEnter();
                     break;
                 default:
-                    System.out.print("Opci�n incorrecta. ");
+                    System.out.print("Opcion incorrecta. ");
                     pulseEnter();
             }
         
         } while (opt != OpcionesMenu.SALIR);
     }
-
 }

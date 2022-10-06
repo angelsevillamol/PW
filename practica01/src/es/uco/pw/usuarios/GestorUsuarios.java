@@ -1,3 +1,6 @@
+/**
+ * Gestor de usuarios registrados en el sistema.
+ */
 package es.uco.pw.usuarios;
 
 import java.io.File;
@@ -12,12 +15,29 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Scanner;
 
+/**
+ * Gestor de usuarios del sistema implementando el patron singleton.
+ */
 public class GestorUsuarios {
 
+	/**
+	 * Instancia del gestor de usuarios.
+	 */
     private static GestorUsuarios instance = null;
+    
+    /**
+     * Lista con los usuarios registrados.
+     */
     private ArrayList<Usuario> usuarios;
+    
+    /**
+     * Ruta relativa del fichero de datos.
+     */
     private String pathDatafile;
 
+    /**
+     * Constructor privado.
+     */
     private GestorUsuarios() {
         this.usuarios = new ArrayList<Usuario>();
         String propFileName = "resources/config.properties";
@@ -30,7 +50,11 @@ public class GestorUsuarios {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Devuelve el objeto singleton del gestor de usuarios.
+     * @return la instancia del gestor de usuarios.
+     */
     public static GestorUsuarios getInstance() {
         if (instance == null) {
             instance = new GestorUsuarios();
@@ -39,6 +63,12 @@ public class GestorUsuarios {
         return instance;
     }
     
+    /**
+     * Busca un usuario registrado a partir de su email.
+     * @param email	el correo electronico del usuario a buscar.
+     * @return 	el usuario encontrado. 
+     * 			Si no existe un usuario con dicho correo, entonces devuelve null.
+     */
     public Usuario buscarUsuario(String email) {	
         Usuario usuario = null;
         
@@ -51,18 +81,34 @@ public class GestorUsuarios {
         return usuario;
     }
     
+    /**
+     * Comprueba si hay un usuario registrado con un determinado correo electronico.
+     * @param email	el correo electronico del usuario a comprobar.
+     * @return true si existe, false en caso contrario.
+     */
     public boolean existeUsuario(String email) {	
         Usuario u = buscarUsuario(email);
         return (u != null);
     }
     
-    public void altaUsuario(Usuario u) {
-        if (existeUsuario(u.getEmail()) == false) {
-            u.setId(this.usuarios.size());
-            this.usuarios.add(u);
+    /**
+     * Da de alta a un usuario en el sistema.
+     * Solo se da de alta si el correo electronico no esta en uso.
+     * Se recomienda invocar previamente al metodo existeUsuario.
+     * @param usuario	el usuario a dar de alta en el sistema.
+     */
+    public void altaUsuario(Usuario usuario) {
+        if (existeUsuario(usuario.getEmail()) == false) {
+            usuario.setId(this.usuarios.size());
+            this.usuarios.add(usuario);
         }
     }
 
+    /**
+     * Modifica la informacion personal de un usuario. 
+     * La nueva informacion se asignara a aquel que tenga el mismo identificador.
+     * @param usuario contiene la nueva informacion del usuario. 
+     */
     public void modificarUsuario(Usuario usuario) {
         for (Usuario u : this.usuarios) {
             if (u.getId() == usuario.getId()) {
@@ -74,16 +120,26 @@ public class GestorUsuarios {
         }
     }
 
-    public void listarUsuario(Usuario u) {
-        System.out.println(u.toString());
+    /**
+     * Imprime por pantalla la informacion personal de un usuario dado.
+     * @param usuario contiene la informacion personal del usuario a imprimir.
+     */
+    public void listarUsuario(Usuario usuario) {
+        System.out.println(usuario.toString());
     }
 
+    /**
+     * Imprime por pantalla la informacion personal de todos los usuarios.
+     */
     public void listarUsuarios() {
         for (Usuario u : this.usuarios) {
             listarUsuario(u);
         }
     }
     
+    /**
+     * Carga la informacion de todos los usuarios registrados en el sistema de la base de datos.
+     */
     public void cargarUsuarios() {
         Scanner read = null;
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -112,6 +168,9 @@ public class GestorUsuarios {
         }
     }
     
+    /**
+     * Guarda la informacion de todos los usuarios registrados en el sistema en la base de datos.
+     */
     public void guardarUsuarios() {
         FileWriter f = null;
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
